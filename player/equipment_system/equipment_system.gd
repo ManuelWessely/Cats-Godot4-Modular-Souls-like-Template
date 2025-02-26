@@ -21,14 +21,7 @@ class_name EquipmentSystem
 ## The object group to detect 
 @export var target_group : String = "targets"
 
-## The signal name from player_node for when the item should be active.
-## items themselves should manage what "active" means, but typically this is
-## monitoring/collision shapes, emitters,sound FX, etc. 
-@export var activate_signal : String = "attack_started"
-## Signal to cancel if the collision monitoring of the held item.
-@export var deactivate_signal : String = "hurt_started"
-## The signal name should be connected to trigger the equipment swap
-@export var change_signal : String = "weapon_changed"
+
 ## The primary item location. Bone attachments or Marker3Ds work well for placement
 @export var held_mount_point : Node3D
 ## The secondary item location. Bone attachments or Marker3Ds work well for placement
@@ -47,15 +40,6 @@ signal equipment_changed(new_equipment : EquipmentObject)
 
 func _ready():
 	
-	if player_node:
-		if player_node.has_signal(change_signal):
-			player_node.connect(change_signal,_on_equipment_changed)
-		## needed to turn on/off monitoring when attacks start/end
-		if player_node.has_signal(activate_signal):
-			player_node.connect(activate_signal,_on_activated)
-		## needed to turn off monitoring if hurt mid-attack
-		if player_node.has_signal(deactivate_signal):
-			player_node.connect(deactivate_signal,_on_stop_signal)
 
 	## update what weapon we're starting with
 	if held_mount_point:
@@ -98,16 +82,15 @@ func _on_equipment_changed():
 		current_equipment.equipped = true
 		current_equipment.collision_mask = collision_detect_layers
 		equipment_changed.emit(current_equipment)
-		
-func _on_activated():
-	## awaiting so the area3D starts monitoring about after attack wind-up
+func activate():
+	print("activate")
 	if current_equipment:
-		await get_tree().create_timer(player_node.anim_length *.3).timeout
-		## pause and start monitoring to hit things
 		current_equipment.monitoring = true
-		await get_tree().create_timer(player_node.anim_length *.5).timeout
-		## after moment turn off monitoring to not hit things
+func deactivate():
+	print("deactivate")
+	if current_equipment:
 		current_equipment.monitoring = false
+
 		
 func _on_body_entered(_hit_body):
 	if _hit_body.is_in_group(target_group):
@@ -117,7 +100,3 @@ func _on_body_entered(_hit_body):
 			
 	else: 
 		hit_world.emit()
-
-func _on_stop_signal():
-	current_equipment.monitoring = false
-

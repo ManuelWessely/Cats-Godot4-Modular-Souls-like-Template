@@ -143,6 +143,9 @@ default_target = NodePath("../PatrolPath/EnemyPatrolPoint")
 [node name="EnemyBase2" parent="Enemies" instance=ExtResource("15_yac72")]
 transform = Transform3D(2.98023e-08, 0, 1, 0, 1, 0, -1, 0, 2.98023e-08, -1.23949, -4.76837e-07, 23.9472)
 
+[node name="EnemyBase10" parent="Enemies" instance=ExtResource("15_yac72")]
+transform = Transform3D(2.98023e-08, 0, 1, 0, 1, 0, -1, 0, 2.98023e-08, -4.50697, -4.76837e-07, 7.33303)
+
 [node name="EnemyBase3" parent="Enemies" instance=ExtResource("15_yac72")]
 transform = Transform3D(-0.518131, 0, 0.855301, 0, 1, 0, -0.855301, 0, -0.518131, -35.9215, 3.8271, 16.6378)
 
@@ -171,7 +174,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.4471, 0, 30.6534)
 curve = SubResource("Curve3D_2c2rs")
 
 [node name="EnemyPatrolPoint" type="PathFollow3D" parent="Enemies/PatrolPath"]
-transform = Transform3D(0.999734, 0, -0.0225164, 0, 1, 0, 0.0225164, 0, 0.999734, -0.43294, 0, -0.97773)
+transform = Transform3D(0.999733, 0, -0.0225164, 0, 1, 0, 0.0225164, 0, 0.999733, -0.43294, 0, -0.97773)
 script = ExtResource("6_i73lt")
 
 [node name="PatrolArea2" type="Path3D" parent="Enemies"]
@@ -339,7 +342,6 @@ Hold SpaceBar/Circle = Sprint"
 [node name="Music" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("14_wsft0")
 volume_db = -18.0
-autoplay = true
 
 [editable path="Interactables/Ladder"]
 [editable path="Interactables/Ladder2"]
